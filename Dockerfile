@@ -63,12 +63,15 @@ RUN chmod 600 /root/.ssh/config
 RUN chown root:root /root/.ssh/config
 
 # # installing supervisord
-# RUN yum install -y python-setuptools
-# RUN easy_install pip
+# nah, but would like pip
+RUN yum install -y python-setuptools
+RUN easy_install pip
 # RUN curl https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -o - | python
 # RUN pip install supervisor
 #
 # ADD supervisord.conf /etc/supervisord.conf
+
+RUN pip install https://github.com/Yelp/mrjob/tarball/master
 
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh
@@ -91,4 +94,11 @@ RUN service sshd start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PRE
 
 CMD ["/etc/bootstrap.sh", "-d"]
 
-EXPOSE 50020 50090 50070 50010 50075 8031 8032 8033 8040 8042 49707 22 8088 8030
+# Hdfs ports
+EXPOSE 50010 50020 50070 50075 50090
+# Mapred ports
+EXPOSE 19888
+#Yarn ports
+EXPOSE 8030 8031 8032 8033 8040 8042 8088
+#Other ports
+EXPOSE 49707 2122
