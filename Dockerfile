@@ -71,12 +71,15 @@ RUN chmod 600 /root/.ssh/config
 RUN chown root:root /root/.ssh/config
 
 # # installing supervisord
-# RUN yum install -y python-setuptools
-# RUN easy_install pip
+# nah, but would like pip
+RUN yum install -y python-setuptools
+RUN easy_install pip
 # RUN curl https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -o - | python
 # RUN pip install supervisor
 #
 # ADD supervisord.conf /etc/supervisord.conf
+
+RUN pip install https://github.com/Yelp/mrjob/tarball/master
 
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh
@@ -106,4 +109,4 @@ EXPOSE 19888
 #Yarn ports
 EXPOSE 8030 8031 8032 8033 8040 8042 8088
 #Other ports
-EXPOSE 49707 2122   
+EXPOSE 49707 2122
